@@ -13,9 +13,9 @@ from xclim import subset
 import xarray as xr
 import os
 
-var = 'tasmax' #changer ligne 59
+var = 'pr' #changer ligne 58
 b_pt='posttraite'# brute ou posttraite
-SE='SE_1'#sous-ensemble
+SE='SE_1_climex'#sous-ensemble
 #open all files in repertory
 dd=[]
 path=('/exec/begin/weighting/'+SE+'/'+b_pt+'/'+var)  
@@ -55,7 +55,7 @@ df=[]
 ds_1=[];ds_2=[];ds_3=[]
 list1=[];list2=[];list3=[]
 for k in range(0,len(files)):
-    df.append(ds_p[k].tasmax.groupby('time.year').mean('time'))
+    df.append(ds_p[k].pr.groupby('time.year').mean('time'))
 
 #Mean on region
     #condition according to the identifier of the dimension (lat,lon)
