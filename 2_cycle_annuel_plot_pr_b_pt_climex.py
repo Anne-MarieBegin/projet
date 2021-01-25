@@ -21,7 +21,7 @@ stat='moy_men_30_'
 b_pt='posttraite'
 
 #open files begin by stat
-path=('/exec/begin/weighting/SE_1/'+b_pt+'/traite/'+var)
+path=('/tank/begin/weighting/SE_1/'+b_pt+'/traite/'+var)
 files = []
 for i in os.listdir(path):
     if os.path.isfile(os.path.join(path,i)) and stat in i:
@@ -29,14 +29,14 @@ for i in os.listdir(path):
 files.sort()
 
 #open file obsevation begin by stat        
-path_obs=('/exec/begin/weighting/SE_1/brute/traite/obs/'+var)
+path_obs=('/tank/begin/weighting/SE_1/brute/traite/obs/'+var)
 files_obs = []
 for i in os.listdir(path_obs):
     if os.path.isfile(os.path.join(path_obs,i)) and stat in i:
         files_obs.append(i)
         
 #open file climex begin by stat        
-path_c=('/exec/begin/weighting/SE_1_climex/'+b_pt+'/traite/'+var)
+path_c=('/tank/begin/weighting/SE_1_climex/'+b_pt+'/traite/'+var)
 files_c = []
 for i in os.listdir(path_c):
     if os.path.isfile(os.path.join(path_c,i)) and stat in i:
@@ -114,10 +114,10 @@ plt.ylim(1.5,5.5)
 plt.ylabel('Précipiation (mm/jour)')
 if b_pt == 'brute':
     plt.title('Précipitation cycle annuel\n1971_2000*\nBrutes')
-    plt.savefig('/exec/begin/weighting/plots/brute/'+var+'_SE_1_b_cycle_annuel_climex_1971_2000',bbox_inches='tight')
+    plt.savefig('/tank/begin/weighting/plots/brute/'+var+'_SE_1_b_cycle_annuel_climex_1971_2000',bbox_inches='tight')
 else:
     plt.title('Précipitation cycle annuel\n1971_2000*\nPost-traitées')
-    plt.savefig('/exec/begin/weighting/plots/posttraite/'+var+'_SE_1_pt_cycle_annuel_climex_1971_2000',bbox_inches='tight')
+    plt.savefig('/tank/begin/weighting/plots/posttraite/'+var+'_SE_1_pt_cycle_annuel_climex_1971_2000',bbox_inches='tight')
 
 
 plt.figure(2)
@@ -138,10 +138,10 @@ plt.ylabel('Rapport écart type', color='g')
 plt.ylim(0.3,1.5)
 if b_pt == 'brute':
     plt.title('Précipitation cycle annuel\n1971_2000*\nBrutes')
-    plt.savefig('/exec/begin/weighting/plots/brute/'+var+'_SE_1_b_rstd_climex_1971_2000',bbox_inches='tight')
+    plt.savefig('/tank/begin/weighting/plots/brute/'+var+'_SE_1_b_rstd_climex_1971_2000',bbox_inches='tight')
 else:
     plt.title('Précipitation cycle annuel\n1971_2000*\nPost-traitées')
-    plt.savefig('/exec/begin/weighting/plots/posttraite/'+var+'_SE_1_pt_rstd_climex_1971_2000',bbox_inches='tight')
+    plt.savefig('/tank/begin/weighting/plots/posttraite/'+var+'_SE_1_pt_rstd_climex_1971_2000',bbox_inches='tight')
 
 plt.figure(3)
 for x in range(0,50):
@@ -161,8 +161,8 @@ plt.ylabel('Coefficient corrélation', color='b')
 plt.ylim(0,1)  
 if b_pt == 'brute':
     plt.title('Précipitation cycle annuel\n1971_2000*\nBrutes')
-    plt.savefig('/exec/begin/weighting/plots/brute/'+var+'_SE_1_b_cc_climex_1971_2000',bbox_inches='tight')
+    plt.savefig('/tank/begin/weighting/plots/brute/'+var+'_SE_1_b_cc_climex_1971_2000',bbox_inches='tight')
 else:
     plt.title('Précipitation cycle annuel\n1971_2000*\nPost-traitées')
-    plt.savefig('/exec/begin/weighting/plots/posttraite/'+var+'_SE_1_pt_cc_climex_1971_2000',bbox_inches='tight')
+    plt.savefig('/tank/begin/weighting/plots/posttraite/'+var+'_SE_1_pt_cc_climex_1971_2000',bbox_inches='tight')
  
