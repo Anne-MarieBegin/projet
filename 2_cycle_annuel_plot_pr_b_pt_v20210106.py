@@ -14,7 +14,7 @@ import xarray as xr
 import os
 import numpy as np
 import matplotlib.pyplot as plt
-
+import skill_metrics as sm
 var='pr'
 stat='moy_men_30_'
 #b_pt='brute'

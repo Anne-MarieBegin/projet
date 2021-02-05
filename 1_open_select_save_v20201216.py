@@ -5,7 +5,7 @@ Created on Thu Jun 13 10:34:36 2019
 
 @author: begin
 
-v20201216 Ouvre fichier, sélectionne 1971-2000(moins 19951996 29 fev), fait une moyenne par année/mois, fait une moyenne sur le domaine, enregistre 
+v20201216 Ouvre fichier, sélectionne 1971-2000(moins 1995 1996 29 fev), fait une moyenne par année/mois, fait une moyenne sur le domaine, enregistre 
 
 """
 import xclim as xc
@@ -15,10 +15,10 @@ import os
 
 var = 'pr' #changer ligne 58
 b_pt='posttraite'# brute ou posttraite
-SE='SE_1_climex'#sous-ensemble
+SE='SE_1_CMIP5'#sous-ensemble
 #open all files in repertory
 dd=[]
-path=('/exec/begin/weighting/'+SE+'/'+b_pt+'/'+var)  
+path=('/tank/begin/weighting/'+SE+'/'+b_pt+'/'+var)  
 files=os.listdir(path)
 files.reverse()
 for i in files:
@@ -55,7 +55,7 @@ df=[]
 ds_1=[];ds_2=[];ds_3=[]
 list1=[];list2=[];list3=[]
 for k in range(0,len(files)):
-    df.append(ds_p[k].pr.groupby('time.year').mean('time'))
+    df.append(ds_p[k].pr.groupby('time.month').mean('time'))
 
 #Mean on region
     #condition according to the identifier of the dimension (lat,lon)
@@ -75,7 +75,7 @@ for k in range(0,len(files)):
 
 #combine list dataarray
 ds_4=ds_1+ds_2+ds_3
-dss=ds_4[0].to_dataframe()
+#dss=ds_4[0].to_dataframe()
 
 #combine position
 list4=list1+list2+list3
@@ -87,5 +87,5 @@ for t in range(0,len(files)):
    
 #save dataarrays with same name as openning
 for m in range(0,len(files)):
-    ds_4[m].to_netcdf('/exec/begin/weighting/'+SE+'/'+b_pt+'/traite/'+var+'/moy_an_30_'+file[m])
+    ds_4[m].to_netcdf('/tank/begin/weighting/'+SE+'/'+b_pt+'/traite/'+var+'/moy_men_30_'+file[m])
     print(file[m])
