@@ -1,0 +1,77 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+code_groupe={'CMIP5':'CM5',
+            'Ouranos':'OUR',
+            'ClimEx':'CMX',
+            'CORDEX':'COR'
+        }
+code_gcm={'ACCESS1-0':'A10',
+      'ACCESS1-3':'A13',
+      'BCC-CSM1-1-m':'B1M',
+      'BCC-CSM1-1':'BC1',
+      'BNU-ESM':'BNU', 
+      'CanESM2':'CE2',
+      'CNRM-CM5':'CN5',
+      'CMCC-CESM':'CMC',
+      'CMCC-CM':'CMM',
+      'CMCC-CMS':'CMS',
+      'CSIRO-Mk3-6-0':'CSI',
+      'FGOALS-g2':'FGO',
+      'GFDL-CM3':'GF3',
+      'GFDL-ESM2G':'GFG',
+      'GFDL-ESM2M':'GFM',
+      'GISS-E2-H':'GIH',
+      'GISS-E2-R':'GIR',
+      'HadGEM2-CC':'HGC',
+      'HagGEM-ES':'HGE',
+      'IPSL-CM5A-LR':'IAL',
+      'IPSL-CM5A-MR':'IAM',
+      'IPSL-CM5B-LR':'IBL',
+      'INMCM4':'INM',
+      'MIROC5':'MI5',
+      'MIROC-ESM-CHEM':'MIC',
+      'MIROC-ESM':'MIE',
+      'MPI-ESM-LR':'MPL',
+      'MPI-ESM-MR':'MPM',
+      'MRI-CGCM3':'MR3',
+      'MRI-ESM1':'MRE',
+      'NorESM1-M':'NOE',
+      'EC-EARTH':'ECE'
+      }
+code_rcm={'CRCM5-UQAM':'CU',
+          'CRCM5-Ouranos':'CO',
+          'RCA4':'RC',
+          'RegCM4':'RM',
+          'CanRCM4':'CA',
+          'HIRHAM5':'HH',
+          'NotApplicable':'XXX'
+        }
+code_resolution={'NAM-11':'1',
+                 'NAM-22':'2',
+                 'NAM-44':'4',
+                 'NotApplicable':''
+        }
+code_rcp={'rcp45':'R4',
+          'rcp85':'R8'
+        }
+code_membre={'r1i1p1':'1',
+             'r2i1p1':'2',
+             'r3i1p1':'3',
+             'r4i1p1':'4',
+             'r5i1p1':'5',
+             'r6i1p1':'6',
+             'r7i1p1':'7',
+             'r8i1p1':'8',
+             'r9i1p1':'9',
+             'r10i1p1':'10',
+             'r12i1p1':'12',
+             'kda':'kda','kdb':'kdb','kdc':'kdc','kdd':'kdd','kde':'kde','kdf':'kdf','kdg':'kdg',
+             'kdh':'kdh','kdi':'kdi','kdj':'kdj','kdk':'kdk','kdl':'kdl','kdm':'kdm',
+             'kdn':'kdn','kdo':'kdo','kdp':'kdp','kdq':'kdq','kdr':'kdr','kds':'kds',
+             'kdt':'kdt','kdu':'kdu','kdv':'kdv','kdw':'kdw','kdx':'kdx','kdy':'kdy',
+             'kdz':'kdz','kea':'kea','keb':'keb','kec':'kec','ked':'ked','kee':'kee',
+             'kef':'kef','keg':'keg','keh':'keh','kei':'kei','kej':'kej','kek':'kek',
+             'kel':'kel','kem':'kem','ken':'ken','keo':'keo','kep':'kep','keq':'keq',
+             'ker':'ker','kes':'kes','ket':'ket','keu':'keu','kev':'kev','kew':'kew',
+             'kex':'kex'
+        }
