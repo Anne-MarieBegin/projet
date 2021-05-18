@@ -13,12 +13,13 @@ from xclim import subset
 import xarray as xr
 import os
 
-var = 'pr' #changer ligne 58
-b_pt='posttraite'# brute ou posttraite
-SE='SE_1_CMIP5'#sous-ensemble
+var = 'tasmin' #changer ligne 59
+b_pt='brute'# brute ou posttraite
+SE='E_2'#sous-ensemble
 #open all files in repertory
 dd=[]
 path=('/tank/begin/weighting/'+SE+'/'+b_pt+'/'+var)  
+#path=('/tank/begin/weighting/'+SE+'/obs/'+var)  #observations
 files=os.listdir(path)
 files.reverse()
 for i in files:
@@ -45,17 +46,17 @@ ds = dsr
 
 #select period in dataset
 ds_p=[]
-start_date = '1971-01-01'
-end_date = '2000-12-31'
+start_date = '1981-01-01'
+end_date = '2010-12-31'
 for n in range(0,len(files)):
     ds_p.append(subset.subset_gridpoint(ds[n], start_date= start_date, end_date=end_date))
 
-#Monthly,year :  nothing,mean,std,var over the period
+#Monthly,year,season :  nothing,mean,std,var over the period
 df=[]
 ds_1=[];ds_2=[];ds_3=[]
 list1=[];list2=[];list3=[]
 for k in range(0,len(files)):
-    df.append(ds_p[k].pr.groupby('time.month').mean('time'))
+    df.append(ds_p[k].tasmax.groupby('time.year').mean('time'))
 
 #Mean on region
     #condition according to the identifier of the dimension (lat,lon)
@@ -87,5 +88,6 @@ for t in range(0,len(files)):
    
 #save dataarrays with same name as openning
 for m in range(0,len(files)):
-    ds_4[m].to_netcdf('/tank/begin/weighting/'+SE+'/'+b_pt+'/traite/'+var+'/moy_men_30_'+file[m])
+    ds_4[m].to_netcdf('/tank/begin/weighting/'+SE+'/traite/'+b_pt+'/'+var+'/an_'+str(start_date[0:4])+'_'+str(end_date[0:4])+'_'+file[m])
+    #ds_4[m].to_netcdf('/tank/begin/weighting/E_1_obs/traite/'+var+'/sai_'+str(start_date[0:4])+'_'+str(end_date[0:4])+'_'+file[m])
     print(file[m])
