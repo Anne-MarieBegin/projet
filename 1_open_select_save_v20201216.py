@@ -89,5 +89,5 @@ for t in range(0,len(files)):
 #save dataarrays with same name as openning
 for m in range(0,len(files)):
     ds_4[m].to_netcdf('/tank/begin/weighting/'+SE+'/traite/'+b_pt+'/'+var+'/an_'+str(start_date[0:4])+'_'+str(end_date[0:4])+'_'+file[m])
-    #ds_4[m].to_netcdf('/tank/begin/weighting/E_1_obs/traite/'+var+'/sai_'+str(start_date[0:4])+'_'+str(end_date[0:4])+'_'+file[m])
+    #ds_4[m].to_netcdf('/tank/begin/weighting/'+SE+'/traite/obs/'+var+'/sai_'+str(start_date[0:4])+'_'+str(end_date[0:4])+'_'+file[m])
     print(file[m])
