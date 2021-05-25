@@ -12,67 +12,43 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import signal
 import pandas as pd
-var='tasmax'
+var='tasmin'
 #moyenne annuel 1971-2000
-stat='moy_an_30_'
+stat='an_1971_2000'
 #b_pt='posttraite'
-b_pt='brute'
+b_pt='posttraite'
 
 
 #open observation file begin with stat        
-path_obs=('/tank/begin/weighting/SE_1/brute/traite/obs/'+var)
+path_obs=('/tank/begin/weighting/E_2/traite/obs/'+var)
 files_obs = []
 for i in os.listdir(path_obs):
     if os.path.isfile(os.path.join(path_obs,i)) and stat in i:
         files_obs.append(i)
 #open files climex
-path_climex=('/tank/begin/weighting/SE_1_climex/'+b_pt+'/traite/'+var)
-files_climex= []
-for i in os.listdir(path_climex):
-    if os.path.isfile(os.path.join(path_climex,i)) and stat in i:
-        files_climex.append(i)
-#open files cordex
-path_cordex=('/tank/begin/weighting/SE_1_CORDEX/'+b_pt+'/traite/'+var)
-files_cordex= []
-for i in os.listdir(path_cordex):
-    if os.path.isfile(os.path.join(path_cordex,i)) and stat in i:
-        files_cordex.append(i)
-#open files cmip5
-path_cmip5=('/tank/begin/weighting/SE_1_CMIP5/'+b_pt+'/traite/'+var)
-files_cmip5= []
-for i in os.listdir(path_cmip5):
-    if os.path.isfile(os.path.join(path_cmip5,i)) and stat in i:
-        files_cmip5.append(i)
+path_all=('/tank/begin/weighting/E_2/traite/'+b_pt+'/'+var)
+files_all= []
+for i in os.listdir(path_all):
+    if os.path.isfile(os.path.join(path_all,i)) and stat in i:
+        files_all.append(i)
+
 #open dataarray observation
 da_obs=[]
 for j in range(0,(len(files_obs))):
     da_obs.append(xr.open_dataarray(path_obs+'/'+files_obs[j]))
 
 #open dataarray 50 membres climex 
-da_climex=[]
-for j in range(0,(len(files_climex))):
-    da_climex.append(xr.open_dataarray(path_climex+'/'+files_climex[j])-273.15)
+da_all=[]
+for j in range(0,(len(files_all))):
+    da_all.append(xr.open_dataarray(path_all+'/'+files_all[j])-273.15)
 
-#open dataarray CORDEX
-da_cordex=[]
-for j in range(0,(len(files_cordex))):
-    da_cordex.append(xr.open_dataarray(path_cordex+'/'+files_cordex[j])-273.15)
-
-#open dataarray CMIP5
-da_cmip5=[]
-for j in range(0,(len(files_cmip5))):
-    da_cmip5.append(xr.open_dataarray(path_cmip5+'/'+files_cmip5[j])-273.15)
-
-files_totale = files_climex + files_cordex + files_cmip5
-
-da_totale = da_climex + da_cordex + da_cmip5
 
 
 #split files, construire dictionnaire, pour faire dataframe
 files_split=[]
 dictio=[]
-for i in range(0,len(files_totale)):
-    files_split.append(files_totale[i].split('_'))
+for i in range(0,len(files_all)):
+    files_split.append(files_all[i].split('_'))
     dictio.append({'groupe':files_split[i][3],
                    'gcm':files_split[i][4],
                    'rcm':files_split[i][5],
@@ -80,8 +56,8 @@ for i in range(0,len(files_totale)):
                    'resolution':files_split[i][7],
                    'rcp':files_split[i][8],
                    'variable':files_split[i][9],
-                   'files':files_totale[i],
-                   'data':da_totale[i]})
+                   'files':files_all[i],
+                   'data':da_all[i]})
 df=pd.DataFrame.from_dict(dictio)    
 df.value_counts(df['gcm']) 
 #creer colonne avec variables combinés
@@ -136,11 +112,11 @@ plt.boxplot(datas,labels=labels)
 plt.ylabel('Rapport écart type')
 plt.ylim(0.4,1.5)
 if b_pt == 'brute':
-    plt.title(var+'\nVariabilité interannuelle\nSérie annuel avec tendance 1971-2000*\nBrutes')
-    plt.savefig('/tank/begin/weighting/plots/brute/'+var+'_SE_1_b_cycle_interannuel_rstd_avec_tendance_123_1971-2000',bbox_inches='tight')
+    plt.title(var+' (E_2)\nVariabilité interannuelle\nSérie annuel avec tendance 1971-2000*\nBrutes')
+    plt.savefig('/tank/begin/weighting/plots/brute/'+var+'_SE_2_b_cycle_interannuel_rstd_avec_tendance_123_1971-2000',bbox_inches='tight')
 else:
-    plt.title(var+'\nVariabilité interannuelle\nSérie annuel avec tendance 1971-2000*\nPost-traitées')
-    plt.savefig('/tank/begin/weighting/plots/posttraite/'+var+'_SE_1_pt_cycle_interannuel_rstd_avec_tendance_123_1971-2000',bbox_inches='tight')
+    plt.title(var+' (E_2)\nVariabilité interannuelle\nSérie annuel avec tendance 1971-2000*\nPost-traitées')
+    plt.savefig('/tank/begin/weighting/plots/posttraite/'+var+'_SE_2_pt_cycle_interannuel_rstd_avec_tendance_123_1971-2000',bbox_inches='tight')
 
 
 
