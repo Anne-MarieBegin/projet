@@ -13,14 +13,15 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 var='tasmin'
-stat1='sai_1981_2010_'#référence
-b_pt='posttraite'
+stat1='sai_1971_2000_'#référence
+b_pt='brute'
 
 #saison n=position dans saison 0=DJF 1-JJA
 n=3
 saison=['DJF','JJA','MAM','SON']
 
 path_obs=('/tank/begin/weighting/E_1/obs/'+var)
+#path_obs=('/tank/begin/weighting/E_2/traite/obs/'+var)
 files_obs= []
 for i in os.listdir(path_obs):
     if os.path.isfile(os.path.join(path_obs,i)) and stat1 in i:
@@ -35,6 +36,7 @@ for j in range(0,(len(files_obs))):
 
 #ouvrir tous les fichiers qui commence par stat1 
 path_all=('/tank/begin/weighting/E_1/'+b_pt+'/'+var)
+#path_all=('/tank/begin/weighting/E_2/traite/'+b_pt+'/'+var)
 files_all= []
 for i in os.listdir(path_all):
     if os.path.isfile(os.path.join(path_all,i)) and stat1 in i:
@@ -104,10 +106,10 @@ biais=[b_climex,b_cordex,b_cmip5]
 labels=['ClimEx (50)','CORDEX (20)','CMIP5 (53)']
 plt.boxplot(biais,labels=labels)
 plt.ylabel('biais ($\circ$C)')
-plt.ylim(-6,9)
+plt.ylim(-10,9)
 if b_pt=='brute':
-    plt.title(var+'\n'+stat1[4::]+saison[n]+'\nBrutes')
-    #plt.savefig('/tank/begin/weighting/plots/brute/'+var+'_b_E_1_biais'+stat1[3::]+'_'+saison[n],bbox_inches='tight')   
+    plt.title(var+' (E_1)\n'+stat1[4::]+saison[n]+'\nBrutes')
+    plt.savefig('/tank/begin/weighting/plots/brute/'+var+'_b_E_1_biais'+stat1[3::]+'_'+saison[n],bbox_inches='tight')   
 else:
-    plt.title(var+'\n'+stat1[4::]+saison[n]+'\nPost-traitées')
-   # plt.savefig('/tank/begin/weighting/plots/posttraite/'+var+'_pt_E_1_biais'+stat1[3::]+'_'+saison[n],bbox_inches='tight') 
+    plt.title(var+' (E_1)\n'+stat1[4::]+saison[n]+'\nPost-traitées')
+    plt.savefig('/tank/begin/weighting/plots/posttraite/'+var+'_pt_E_1_biais'+stat1[3::]+'_'+saison[n],bbox_inches='tight') 
