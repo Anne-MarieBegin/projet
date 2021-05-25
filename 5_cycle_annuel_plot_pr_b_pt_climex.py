@@ -11,14 +11,14 @@ import xarray as xr
 import os
 import numpy as np
 import matplotlib.pyplot as plt
-
+import pandas as pd
 var='pr'
-stat='moy_men_30_'
+stat='men_1971_2000'
 #b_pt='brute'
 b_pt='brute'
 
 #open files begin by stat
-path=('/tank/begin/weighting/SE_1/'+b_pt+'/traite/'+var)
+path=('/tank/begin/weighting/SE_2/traite/'+b_pt+'/'+var)
 files = []
 for i in os.listdir(path):
     if os.path.isfile(os.path.join(path,i)) and stat in i:
@@ -27,18 +27,18 @@ for i in os.listdir(path):
 files.sort()
 
 #open file obsevation begin by stat        
-path_obs=('/tank/begin/weighting/SE_1/brute/traite/obs/'+var)
+path_obs=('/tank/begin/weighting/E_2/traite/obs/'+var)
 files_obs = []
 for i in os.listdir(path_obs):
     if os.path.isfile(os.path.join(path_obs,i)) and stat in i:
         files_obs.append(i)
         
-#open file climex begin by stat        
-path_c=('/tank/begin/weighting/SE_1_climex/'+b_pt+'/traite/'+var)
-files_c = []
-for i in os.listdir(path_c):
-    if os.path.isfile(os.path.join(path_c,i)) and stat in i:
-        files_c.append(i)
+#open file obsevation begin by stat        
+path_all=('/tank/begin/weighting/E_2/traite/'+b_pt+'/'+var)
+files_all = []
+for i in os.listdir(path_all):
+    if os.path.isfile(os.path.join(path_all,i)) and stat in i:
+        files_all.append(i)
 
 #open datarray SE_1
 da=[]
@@ -54,10 +54,31 @@ for j in range(0,(len(files_obs))):
     da_obs.append(xr.open_dataarray(path_obs+'/'+files_obs[j])*86400)
 
 #open dataarray climex      
-da_c=[]
-for j in range(0,(len(files_c))):
-    da_c.append(xr.open_dataarray(path_c+'/'+files_c[j])*86400)
+da_all=[]
+for j in range(0,(len(files_all))):
+    da_all.append(xr.open_dataarray(path_all+'/'+files_all[j])*86400)
+#créer un dictionnaire avec dataarray       
+files_totale=files_all
+files_split=[]
+dictio=[]
+for i in range(0,len(files_totale)):
+    files_split.append(files_totale[i].split('_'))
+    dictio.append({'groupe':files_split[i][3],
+                   'gcm':files_split[i][4],
+                   'rcm':files_split[i][5],
+                   'membre':files_split[i][6],
+                   'resolution':files_split[i][7],
+                   'rcp':files_split[i][8],
+                   'variable':files_split[i][9],
+                   'files':files_totale[i],
+                   'data':da_all[i]})
 
+#faire dataframe avec dictionnaire
+df1=pd.DataFrame.from_dict(dictio)
+da_c=[]
+for i in range (len(df1)):
+    if df1['groupe'][i]=='ClimEx':
+        da_c.append(df1['data'][i])
 #insérer climex en deuxième position et observation en première position
 da.insert(0,da_c[:])
 da.insert(0,da_obs[0])        
@@ -125,14 +146,14 @@ for i in range(0,50):
     plt.plot(mois,da[11],'olive')
 plt.xticks(rotation=90)
 plt.legend(sim[:],bbox_to_anchor=(1.05, 1), loc='upper left')
-plt.ylim(1.5,5.5)
+plt.ylim(1.5,6)
 plt.ylabel('Précipiation (mm/jour)')
 if b_pt == 'brute':
-    plt.title('Précipitation cycle annuel\n1971_2000*\nBrutes')
-    plt.savefig('/tank/begin/weighting/plots/brute/'+var+'_SE_1_b_cycle_annuel_climex_1971_2000',bbox_inches='tight')
+    plt.title('Précipitation cycle annuel (E_2)\n1971_2000\nBrutes')
+    plt.savefig('/tank/begin/weighting/plots/brute/'+var+'_SE_2_b_cycle_annuel_climex_1971_2000',bbox_inches='tight')
 else:
-    plt.title('Précipitation cycle annuel\n1971_2000*\nPost-traitées')
-    plt.savefig('/tank/begin/weighting/plots/posttraite/'+var+'_SE_1_pt_cycle_annuel_climex_1971_2000',bbox_inches='tight')
+    plt.title('Précipitation cycle annuel (E_2)\n1971_2000\nPost-traitées')
+    plt.savefig('/tank/begin/weighting/plots/posttraite/'+var+'_SE_2_pt_cycle_annuel_climex_1971_2000',bbox_inches='tight')
 
 #plot rapport écart type
 plt.figure(2)
@@ -152,11 +173,11 @@ plt.xticks(rotation=90)
 plt.ylabel('Rapport écart type', color='g')
 plt.ylim(0.3,1.5)
 if b_pt == 'brute':
-    plt.title('Précipitation cycle annuel\n1971_2000*\nBrutes')
-    plt.savefig('/tank/begin/weighting/plots/brute/'+var+'_SE_1_b_rstd_climex_1971_2000',bbox_inches='tight')
+    plt.title('Précipitation cycle annuel\n1971_2000\nBrutes')
+   # plt.savefig('/tank/begin/weighting/plots/brute/'+var+'_SE_2_b_rstd_climex_1971_2000',bbox_inches='tight')
 else:
-    plt.title('Précipitation cycle annuel\n1971_2000*\nPost-traitées')
-    plt.savefig('/tank/begin/weighting/plots/posttraite/'+var+'_SE_1_pt_rstd_climex_1971_2000',bbox_inches='tight')
+    plt.title('Précipitation cycle annuel\n1971_2000\nPost-traitées')
+   # plt.savefig('/tank/begin/weighting/plots/posttraite/'+var+'_SE_2_pt_rstd_climex_1971_2000',bbox_inches='tight')
 
 #plot coefficient corrélation
 plt.figure(3)
@@ -176,11 +197,11 @@ plt.xticks(rotation=90)
 plt.ylabel('Coefficient corrélation', color='b')
 plt.ylim(0,1)  
 if b_pt == 'brute':
-    plt.title('Précipitation cycle annuel\n1971_2000*\nBrutes')
-    plt.savefig('/tank/begin/weighting/plots/brute/'+var+'_SE_1_b_cc_climex_1971_2000',bbox_inches='tight')
+    plt.title('Précipitation cycle annuel\n1971_2000\nBrutes')
+   # plt.savefig('/tank/begin/weighting/plots/brute/'+var+'_SE_2_b_cc_climex_1971_2000',bbox_inches='tight')
 else:
-    plt.title('Précipitation cycle annuel\n1971_2000*\nPost-traitées')
-    plt.savefig('/tank/begin/weighting/plots/posttraite/'+var+'_SE_1_pt_cc_climex_1971_2000',bbox_inches='tight')
+    plt.title('Précipitation cycle annuel\n1971_2000\nPost-traitées')
+   # plt.savefig('/tank/begin/weighting/plots/posttraite/'+var+'_SE_2_pt_cc_climex_1971_2000',bbox_inches='tight')
 
 plt.figure(4)
 for m in range(0,50):
@@ -200,8 +221,8 @@ plt.legend(sim[1:],bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.ylabel('Biais (mm/jour)')
 plt.ylim(-2,2)
 if b_pt == 'brute':
-    plt.title('Précipitation cycle annuel\n1971_2000*\nBrutes')
-    plt.savefig('/tank/begin/weighting/plots/brute/'+var+'_SE_1_b_biais_climex_1971_2000',bbox_inches='tight')
+    plt.title('Précipitation cycle annuel\n1971_2000\nBrutes')
+   # plt.savefig('/tank/begin/weighting/plots/brute/'+var+'_SE_2_b_biais_climex_1971_2000',bbox_inches='tight')
 else:
-    plt.title('Précipitation cycle annuel\n1971_2000*\nPost-traitées')
-    plt.savefig('/tank/begin/weighting/plots/posttraite/'+var+'_SE_1_pt_biais_climex_1971_2000',bbox_inches='tight')
+    plt.title('Précipitation cycle annuel\n1971_2000\nPost-traitées')
+   # plt.savefig('/tank/begin/weighting/plots/posttraite/'+var+'_SE_2_pt_biais_climex_1971_2000',bbox_inches='tight')
